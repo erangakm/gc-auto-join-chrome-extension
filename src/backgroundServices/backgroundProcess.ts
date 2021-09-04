@@ -20,10 +20,40 @@ export function helloWorld() {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message.operation === "get_auth_token") {
     chrome.identity.getAuthToken({ interactive: true }, function (token) {
-      console.log(token, "TOKEN>>>>>>>>>>>>");
       sendResponse(token);
     });
   }
+
+  if (request.message.operation === "logout") {
+    console.log(request.message.token, "TOKEN>>>>>>>")
+    var url = 'https://accounts.google.com/o/oauth2/revoke?token=' + request.message.token;
+    fetch(url).then(() => {
+      console.log("done");
+      sendResponse(true);
+    })
+  }
+
+  if (request.message.operation === "call_calendar") {
+    const token = request.message.token;
+    chrome.identity.getProfileUserInfo({ accountStatus: chrome.identity.AccountStatus.ANY }, async function (user_info) {
+      console.log(user_info, "PROFILE INFO");
+      const timeMin = encodeURIComponent("2021-08-27T11:49:00+10:00");
+      const timeMax =  encodeURIComponent("2021-08-28T11:49:00+10:00");
+      const fetchUrl = `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&singleEvents=true&timeMax=${timeMax}`;
+      console.log(fetchUrl, "URL>>>>>>>>");
+      const fetchOptions = {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      }
+      const response = await (await fetch(fetchUrl, fetchOptions)).json();
+      console.log(response, "response>>>>>>>>s>>")
+      sendResponse(response.items);
+    });
+  }
+
+
+
 
   return true;
 });

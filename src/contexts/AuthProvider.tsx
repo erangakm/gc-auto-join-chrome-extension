@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { LoginButton } from "../LoginButton";
-import { AuthStatus } from "../model/AuthStatus";
+import { LoginButton } from "../components/LoginButton";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider: React.FC<{}> = ({ children }) => {
-  const [authStatus, setAuthStatus] = useState<AuthStatus>({ loggedIn: false })
+  const [token, setToken] = useState<string | undefined | null>(undefined)
 
   return (
-    <AuthContext.Provider value={authStatus}>
-      { authStatus.loggedIn ? children : <LoginButton setAuthStatus={setAuthStatus} /> }
+    <AuthContext.Provider value={{
+      token,
+      setToken
+    }}>
+      { token != null ? children : <LoginButton setToken={setToken} /> }
     </AuthContext.Provider>
   )
 }

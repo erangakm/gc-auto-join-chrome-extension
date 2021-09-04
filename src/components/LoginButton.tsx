@@ -1,20 +1,16 @@
 import React from "react";
-import { AuthStatus } from "./model/AuthStatus";
 
 interface Props {
-  setAuthStatus: (status: AuthStatus) => void;
+  setToken: (token: string) => void;
 }
 
-export const LoginButton: React.FC<Props> = ({ setAuthStatus }) => {
+export const LoginButton: React.FC<Props> = ({ setToken }) => {
   const onClick = () => {
     console.log("clicked login button>>>>");
     chrome.runtime.sendMessage({ message: {
       operation: "get_auth_token",
     } }, (response) => {
-      setAuthStatus({
-        loggedIn: true,
-        token: response
-      });
+      setToken(response);
       console.log(response, "RESPONSE>>>>>>>>>>.");
     });
   }
@@ -23,5 +19,3 @@ export const LoginButton: React.FC<Props> = ({ setAuthStatus }) => {
     <button onClick={onClick}>Login to Google Calendar</button>
   )
 };
-
-// 'get_auth_token', setToken
