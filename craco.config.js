@@ -5,7 +5,7 @@ module.exports = {
         ...webpackConfig,
         entry: {
           main: [env === 'development' && require.resolve('react-dev-utils/webpackHotDevClient'),paths.appIndexJs].filter(Boolean),
-          background: './src/backgroundServices/taskScheduler.ts',
+          background: './src/backgroundServices/backgroundProcess.ts',
         },
         output: {
           ...webpackConfig.output,

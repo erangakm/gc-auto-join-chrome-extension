@@ -1,3 +1,5 @@
+// import s from "@types/chrome";
+
 chrome.runtime.onInstalled.addListener(() => {
   console.log('onInstalled...');
   // create alarm after extension is installed / upgraded
@@ -14,3 +16,15 @@ export function helloWorld() {
   // chrome.tabs.create({ url: newURL });
   console.log("Hello, world!");
 }
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.message.operation === "get_auth_token") {
+    chrome.identity.getAuthToken({ interactive: true }, function (token) {
+      console.log(token, "TOKEN>>>>>>>>>>>>");
+      sendResponse(token);
+    });
+  }
+
+  return true;
+});
+

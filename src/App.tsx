@@ -1,25 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { AuthProvider } from "./contexts/AuthProvider";
+import { TestComponent } from "./TestComponent";
 
 function App() {
+  const onClick = () => {
+    console.log("kdkd");
+    chrome.runtime.sendMessage({ message: 'get_auth_token' });
+  }
+
+  const onClick2 = () => {
+    chrome.runtime.sendMessage({ message: "logout" })
+  }
+
+  const onClick3 = () => {
+    chrome.runtime.sendMessage({ message: "call_calendar" })
+  }
+
+  const xx = process.env.REACT_APP_GOOGLE_API_KEY;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <button onClick={onClick}>Click me!!!g</button>
+      <button onClick={onClick2}>Logout</button>
+      <button onClick={onClick3}>Call calendar!!</button>
+      <TestComponent />
+      <p>{xx}</p>
+    </AuthProvider>
   );
 }
 
