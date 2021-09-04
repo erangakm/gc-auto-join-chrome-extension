@@ -18,6 +18,12 @@ export function helloWorld() {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.message.operation === "refetch_token") {
+    chrome.identity.getAuthToken({ interactive: false }, function (token) {
+      sendResponse(token);
+    });
+  }
+
   if (request.message.operation === "get_auth_token") {
     chrome.identity.getAuthToken({ interactive: true }, function (token) {
       sendResponse(token);
@@ -51,9 +57,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse(response.items);
     });
   }
-
-
-
 
   return true;
 });

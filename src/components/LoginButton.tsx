@@ -2,9 +2,10 @@ import React from "react";
 
 interface Props {
   setToken: (token: string) => void;
+  setTokenLoading: (loading: boolean) => void;
 }
 
-export const LoginButton: React.FC<Props> = ({ setToken }) => {
+export const LoginButton: React.FC<Props> = ({ setToken, setTokenLoading }) => {
   const onClick = () => {
     console.log("clicked login button>>>>");
     chrome.runtime.sendMessage({ message: {
@@ -12,6 +13,7 @@ export const LoginButton: React.FC<Props> = ({ setToken }) => {
     } }, (response) => {
       setToken(response);
       console.log(response, "RESPONSE>>>>>>>>>>.");
+      setTokenLoading(false);
     });
   }
 
