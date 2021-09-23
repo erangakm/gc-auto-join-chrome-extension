@@ -5,7 +5,7 @@ import { LogoutButton } from "./LogoutButton";
 
 export const LoggedInPage: React.FC<{}> = () => {
   const session = useContext(AuthContext);
-  if (session.token == null) {
+  if (session.tokens == null) {
     throw new Error("User not logged in");
   }
 

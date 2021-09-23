@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export const EventList: React.FC<{}> = () => {
   const session = useContext(AuthContext);
-  if (session.token == null) {
+  if (session.tokens == null) {
     throw new Error("User not logged in");
   }
 
@@ -12,11 +12,11 @@ export const EventList: React.FC<{}> = () => {
   useEffect(() => {
     chrome.runtime.sendMessage({ message: {
       operation: "call_calendar",
-      token: session.token,
+      token: session.tokens?.accessToken,
     } }, (response) => {
       setEvents(response);
     })
-  }, [session.token])
+  }, [session.tokens])
 
   console.log(events, "EBENTS>>>>>>>");
 

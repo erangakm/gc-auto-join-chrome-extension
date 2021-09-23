@@ -1,18 +1,19 @@
 import React from "react";
+import { AuthTokens } from "../model/AuthTokens";
 
 interface Props {
-  setToken: (token: string) => void;
+  setToken: (token: AuthTokens) => void;
   setTokenLoading: (loading: boolean) => void;
 }
 
 export const LoginButton: React.FC<Props> = ({ setToken, setTokenLoading }) => {
   const onClick = () => {
-    console.log("clicked login button>>>>");
-    chrome.runtime.sendMessage({ message: {
-      operation: "get_auth_token",
-    } }, (response) => {
+    chrome.runtime.sendMessage({
+      message: {
+        operation: "login"
+      },
+    }, (response) => {
       setToken(response);
-      console.log(response, "RESPONSE>>>>>>>>>>.");
       setTokenLoading(false);
     });
   }

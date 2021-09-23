@@ -1,4 +1,6 @@
+import { AuthTokens } from "./AuthTokens";
+
 export interface AuthStatus {
-  token?: string | null;
-  setToken: (token: string | null) => void;
+  tokens: AuthTokens | null;
+  setTokens: (tokens: AuthTokens | null) => void;
 }

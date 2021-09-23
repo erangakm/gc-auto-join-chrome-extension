@@ -3,20 +3,18 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export const LogoutButton: React.FC<{}> = () => {
   const session = useContext(AuthContext);
-  if (session.token == null) {
+  if (session.tokens == null) {
     throw new Error("User not logged in");
   }
 
   const onClick = () => {
-    console.log("clicked logout button>>>>");
-
     chrome.runtime.sendMessage({
       message: {
         operation: "logout",
-        token: session.token
+        token: session.tokens
       }
-    }, (response) => {
-      session.setToken(null);
+    }, () => {
+      session.setTokens(null);
     })
   }
 

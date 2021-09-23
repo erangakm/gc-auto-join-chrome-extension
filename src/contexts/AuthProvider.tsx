@@ -1,22 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { LoginButton } from "../components/LoginButton";
 import { AuthContext } from "./AuthContext";
+import { getStorageKey } from "../lib/getStorageKey";
+import { AuthTokens } from "../model/AuthTokens";
 
 export const AuthProvider: React.FC<{}> = ({ children }) => {
-  const [token, setToken] = useState<string | undefined | null>(undefined);
-  const [tokenLoading, setTokenLoading] = useState(true);
+  const [tokens, setTokens] = useState<AuthTokens | null>(null);
+  const [tokensLoading, setTokensLoading] = useState(true);
+
+  const fetchTokens = useCallback(async () => {
+    const tokensFromStorage = await getStorageKey<AuthTokens>("authTokens");
+    console.log(tokensFromStorage, "TOKENS>>>>>>>");
+    if (tokensFromStorage == null) {
+      setTokens(null);
+      setTokensLoading(false);
+
+      return;
+    }
+
+    chrome.runtime.sendMessage({
+      message: {
+        operation: "validate_token",
+        token: tokensFromStorage?.accessToken
+      }
+    }, (tokenValid) => {
+      if (!tokenValid) {
+        chrome.runtime.sendMessage({
+          message: {
+            operation: "refresh_token",
+            refreshToken: tokensFromStorage.refreshToken,
+          },
+        }, (accessToken) => {
+          setTokens({
+            accessToken,
+            refreshToken: tokensFromStorage?.refreshToken,
+          });
+          setTokensLoading(false);
+        })
+      }
+      else {
+        setTokens(tokensFromStorage)
+        setTokensLoading(false);
+      }
+    });
+
+  }, [setTokens, setTokensLoading])
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: {
-      operation: "refetch_token",
-    } }, (response) => {
-      console.log(response, "RESPONSE>>>>>>>>>>.");
-      setToken(response);
-      setTokenLoading(false);
-    });
-  }, []);
+    fetchTokens();
+  }, [fetchTokens]);
 
-  if (tokenLoading) {
+  if (tokensLoading) {
+    console.log("loading tokens here", tokens)
     return (
       <p>Grabbing your session...</p>
     )
@@ -24,10 +59,10 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      token,
-      setToken
+      tokens,
+      setTokens
     }}>
-      { token != null ? children : <LoginButton setToken={setToken} setTokenLoading={setTokenLoading} /> }
+      { tokens != null ? children : <LoginButton setToken={setTokens} setTokenLoading={setTokensLoading} /> }
     </AuthContext.Provider>
   )
 }
