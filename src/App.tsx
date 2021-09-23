@@ -1,4 +1,5 @@
 import './App.css';
+
 import { LoggedInPage } from "./components/LoggedInPage";
 import { AuthProvider } from "./contexts/AuthProvider";
 

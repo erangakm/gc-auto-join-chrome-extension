@@ -10,7 +10,7 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
 
   const fetchTokens = useCallback(async () => {
     const tokensFromStorage = await getStorageKey<AuthTokens>("authTokens");
-    console.log(tokensFromStorage, "TOKENS>>>>>>>");
+    console.log(tokensFromStorage, "tokens from storage...");
     if (tokensFromStorage == null) {
       setTokens(null);
       setTokensLoading(false);
@@ -18,6 +18,7 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
       return;
     }
 
+    console.log("validating token...");
     chrome.runtime.sendMessage({
       message: {
         operation: "validate_token",
@@ -25,12 +26,14 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
       }
     }, (tokenValid) => {
       if (!tokenValid) {
+        console.log("about to refresh token...")
         chrome.runtime.sendMessage({
           message: {
             operation: "refresh_token",
             refreshToken: tokensFromStorage.refreshToken,
           },
         }, (accessToken) => {
+          console.log("saving newly refreshed token...", accessToken);
           setTokens({
             accessToken,
             refreshToken: tokensFromStorage?.refreshToken,
@@ -39,6 +42,7 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
         })
       }
       else {
+        console.log("token from storage is still valid...");
         setTokens(tokensFromStorage)
         setTokensLoading(false);
       }
@@ -51,9 +55,8 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
   }, [fetchTokens]);
 
   if (tokensLoading) {
-    console.log("loading tokens here", tokens)
     return (
-      <p>Grabbing your session...</p>
+      <p>Loading your session...</p>
     )
   }
 

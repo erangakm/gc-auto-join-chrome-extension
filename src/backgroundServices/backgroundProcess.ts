@@ -82,7 +82,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     fetch(`https://www.googleapis.com/oauth2/v2/tokeninfo?access_token=${token}`).then((response) => {
       response.json().then((body) => {
-        console.log(body, "token validation response here ---> ");
         sendResponse(body.expires_in > 0)
       })
     })
@@ -124,12 +123,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     };
     fetch(url, options).then((response) => {
       response.json().then((body) => {
-        console.log(body, "BODY>>>>>>>>>")
         sendResponse(body.items)
       })
     })
-
-    console.log("calling calendar>>>>>>>>>");
   }
 
   return true;
