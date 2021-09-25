@@ -1,4 +1,6 @@
+import { getEnvironmentVariable } from "../lib/getEnvironmentVariable";
 import { AuthTokens } from "../model/AuthTokens";
+import { setStorageKey } from "../lib/chromeStorageHandlers";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('onInstalled...');
@@ -17,18 +19,13 @@ export function helloWorld() {
   console.log("Hello, world!");
 }
 
-const CLIENT_ID = encodeURIComponent(process.env.REACT_APP_OAUTH_CLIENT_ID ?? "");
-const RESPONSE_TYPE = encodeURIComponent('code');
+const CLIENT_ID = encodeURIComponent(getEnvironmentVariable("REACT_APP_OAUTH_CLIENT_ID"));
 const REDIRECT_URI = encodeURIComponent('https://mghoimjmeppliamlmihmenbhaipcodap.chromiumapp.org/')
 const SCOPE = `${encodeURIComponent("profile")}+${encodeURIComponent("email")}+${encodeURIComponent("https://www.googleapis.com/auth/calendar.events.readonly")}+${encodeURIComponent("https://www.googleapis.com/auth/calendar.readonly")}`
-// const STATE = encodeURIComponent('meet' + Math.random().toString(36).substring(2, 15));
-const PROMPT = encodeURIComponent('consent');
 
 const authEndpoint = () => {
   const nonce = encodeURIComponent(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
-  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&nonce=${nonce}&prompt=${PROMPT}&access_type=offline`;
-
-  console.log(url);
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&nonce=${nonce}&prompt=consent&access_type=offline`;
 
   return url;
 }
@@ -43,7 +40,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse('fail');
       }
       else {
-        console.log(redirectUri, "RESPONSE FROM API CALL>>>>>>>>>>");
         const authorizationCode = new URL(redirectUri).searchParams.get("code");
         if (authorizationCode == null) {
           sendResponse('fail')
@@ -61,16 +57,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
         const response = await fetch("https://oauth2.googleapis.com/token", options);
         const body = await response.json()
-        console.log(body, "RESPONSE>>>>>>>>>");
 
         const authTokens: AuthTokens = {
           accessToken: body.access_token,
           refreshToken: body.refresh_token,
         }
 
-        chrome.storage.local.set({ authTokens }, () => {
-          sendResponse(authTokens)
-        })
+        await setStorageKey("authTokens", authTokens);
       }
     })
 
@@ -106,7 +99,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     fetch("https://oauth2.googleapis.com/token", options).then((response) => {
       response.json().then((body) => {
-        sendResponse(body.access_token);
+        setStorageKey("authTokens", {
+          accessToken: body.access_token,
+          refreshToken,
+        }).then(() => {
+          sendResponse(body.access_token);
+        });
       })
     });
   }

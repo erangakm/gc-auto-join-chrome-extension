@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { LoginButton } from "../components/LoginButton";
 import { AuthContext } from "./AuthContext";
-import { getStorageKey } from "../lib/getStorageKey";
+import { getStorageKey } from "../lib/chromeStorageHandlers";
 import { AuthTokens } from "../model/AuthTokens";
 
 export const AuthProvider: React.FC<{}> = ({ children }) => {
