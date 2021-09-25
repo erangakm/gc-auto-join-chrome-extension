@@ -65,7 +65,7 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
       tokens,
       setTokens
     }}>
-      { tokens != null ? children : <LoginButton setToken={setTokens} setTokenLoading={setTokensLoading} /> }
+      { tokens != null ? children : <LoginButton setTokens={setTokens} setTokenLoading={setTokensLoading} /> }
     </AuthContext.Provider>
   )
 }
