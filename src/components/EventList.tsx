@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import dayjs from "dayjs";
+import { Event } from "../model/googleCalendar/Event";
+import { Event as EventComponent } from "./Event";
 
 export const EventList: React.FC<{}> = () => {
   const session = useContext(AuthContext);
@@ -7,23 +10,37 @@ export const EventList: React.FC<{}> = () => {
     throw new Error("User not logged in");
   }
 
-  const [events, setEvents] = useState<string | null>(null);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [eventsLoading, setEventsLoading] = useState(true);
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ message: {
-      operation: "call_calendar",
-      token: session.tokens?.accessToken,
-    } }, (response) => {
-      setEvents(response);
-    })
-  }, [session.tokens])
+    const now = dayjs();
+    const timeMin = encodeURIComponent(now.format())
+    const timeMax = encodeURIComponent(now.endOf("day").format());
+    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&singleEvents=true&timeMax=${timeMax}`;
+    const options = {
+      headers: {
+        "Authorization": `Bearer ${session.tokens?.accessToken}`
+      }
+    };
 
-  console.log(events, "EBENTS>>>>>>>");
+    const fetchData = async () => {
+      const response = await fetch(url, options)
+      const data = await response.json();
+      setEvents(data.items as Event[]);
+      setEventsLoading(false);
+    }
+
+    fetchData();
+  }, [session.tokens]);
 
   return (
     <>
-      <p>Event 1</p>
-      <p>Event 2</p>
+      {eventsLoading ? <p>Events loading...</p> :
+        events.map((event, i) => (
+          <EventComponent key={i} event={event} />
+        ))
+      }
     </>
   )
 };

@@ -110,23 +110,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
   }
 
-  if (request.message.operation === "call_calendar") {
-    const token = request.message.token;
-    const timeMin = encodeURIComponent("2021-09-22T11:49:00+10:00");
-    const timeMax =  encodeURIComponent("2021-09-24T11:49:00+10:00");
-    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&singleEvents=true&timeMax=${timeMax}`;
-    const options = {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    };
-    fetch(url, options).then((response) => {
-      response.json().then((body) => {
-        sendResponse(body.items)
-      })
-    })
-  }
-
   return true;
 });
 
