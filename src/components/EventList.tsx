@@ -37,9 +37,14 @@ export const EventList: React.FC<{}> = () => {
   return (
     <>
       {eventsLoading ? <p>Events loading...</p> :
-        events.map((event, i) => (
-          <EventComponent key={i} event={event} />
-        ))
+        <>
+          {
+            events.map((event, i) => (
+              <EventComponent key={i} event={event} />
+            ))
+          }
+          { events.length === 0 ? <p>No events today</p> : null  }
+        </>
       }
     </>
   )
