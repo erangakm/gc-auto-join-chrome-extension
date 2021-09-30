@@ -1,6 +1,7 @@
 import { getEnvironmentVariable } from "../lib/getEnvironmentVariable";
 import { AuthTokens } from "../model/AuthTokens";
-import { setStorageKey } from "../lib/chromeStorageHandlers";
+import { getStorageKey, setStorageKey } from "../lib/chromeStorageHandlers";
+import { ScheduledEvent } from "../model/ScheduledEvent";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('onInstalled...');
@@ -9,14 +10,36 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  console.log(alarm.name); // refresh
-  helloWorld();
+  joinMeetings();
 });
 
-export function helloWorld() {
-  // var newURL = "http://stackoverflow.com/";
-  // chrome.tabs.create({ url: newURL });
-  console.log("Hello, world!");
+export const joinMeetings = async () => {
+  const now = new Date();
+
+  console.log( "Ran alarm at ->", now.toLocaleString("en-US", {
+    hour12: true,
+    hour: "numeric",
+    minute: "numeric"
+  }));
+
+  const schedule = await getStorageKey<ScheduledEvent[]>("eventSchedule") ?? [];
+  schedule.forEach((schedulledEvent) => {
+    const timeDifferenceInSeconds = (schedulledEvent.startTime - now.valueOf()) / 1000;
+    if (timeDifferenceInSeconds < 60 && timeDifferenceInSeconds > 0) {
+      chrome.notifications.create(`notification-${now.valueOf()}`, {
+        type: "basic",
+        iconUrl: "logo192.png",
+        title: "Event about to start",
+        message: `You will be joining your hangouts meeting "${schedulledEvent.title}" within a minute`,
+        priority: 2
+      });
+      console.log(`${schedulledEvent.title} starting in ${timeDifferenceInSeconds} seconds`);
+      setTimeout(() => {
+        console.log("opening link ->", schedulledEvent.link);
+        chrome.tabs.create({ url: schedulledEvent.link });
+      }, timeDifferenceInSeconds * 1000)
+    }
+  });
 }
 
 const CLIENT_ID = encodeURIComponent(getEnvironmentVariable("REACT_APP_OAUTH_CLIENT_ID"));

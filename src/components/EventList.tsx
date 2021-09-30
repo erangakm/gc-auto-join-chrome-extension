@@ -51,8 +51,10 @@ export const EventList: React.FC<{}> = () => {
       {eventsLoading ? <p>Events loading...</p> :
         <>
           {
-            events.map((event, i) => (
-              <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
+            events
+              .filter((event) => event.hangoutLink != null)
+              .map((event, i) => (
+                <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
             ))
           }
           { events.length === 0 ? <p>No events today</p> : null  }

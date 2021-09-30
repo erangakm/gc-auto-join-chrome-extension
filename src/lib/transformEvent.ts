@@ -7,6 +7,6 @@ export const transformEvent = (event: EventSource): ScheduledEvent => {
     id: event.id,
     startTime: (new Date(event.start.dateTime)).valueOf(),
     title: event.summary,
-    userEmail: "erangakm@gmail.com"
+    link: `${event.hangoutLink}?authUser=erangakm@gmail.com`,
   }
 }
