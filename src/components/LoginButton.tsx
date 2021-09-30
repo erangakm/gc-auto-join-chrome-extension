@@ -1,8 +1,8 @@
 import React from "react";
-import { AuthTokens } from "../model/AuthTokens";
+import { AuthSession } from "../model/AuthSession";
 
 interface Props {
-  setTokens: (token: AuthTokens) => void;
+  setTokens: (token: AuthSession) => void;
   setTokenLoading: (loading: boolean) => void;
 }
 

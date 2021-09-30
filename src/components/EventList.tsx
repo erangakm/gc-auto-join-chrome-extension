@@ -7,8 +7,8 @@ import { ScheduledEvent } from "../model/ScheduledEvent";
 import { getStorageKey } from "../lib/chromeStorageHandlers";
 
 export const EventList: React.FC<{}> = () => {
-  const session = useContext(AuthContext);
-  if (session.tokens == null) {
+  const authCtx = useContext(AuthContext);
+  if (authCtx.session == null) {
     throw new Error("User not logged in");
   }
 
@@ -23,7 +23,7 @@ export const EventList: React.FC<{}> = () => {
     const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&singleEvents=true&timeMax=${timeMax}`;
     const options = {
       headers: {
-        "Authorization": `Bearer ${session.tokens?.accessToken}`
+        "Authorization": `Bearer ${authCtx.session?.accessToken}`
       }
     };
 
@@ -35,7 +35,7 @@ export const EventList: React.FC<{}> = () => {
     }
 
     fetchData();
-  }, [session.tokens]);
+  }, [authCtx.session]);
 
   useEffect(() => {
     const fetchEvents = async () => {

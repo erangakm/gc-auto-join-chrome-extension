@@ -4,8 +4,8 @@ import { EventList } from "./EventList";
 import { LogoutButton } from "./LogoutButton";
 
 export const LoggedInPage: React.FC<{}> = () => {
-  const session = useContext(AuthContext);
-  if (session.tokens == null) {
+  const authCtx = useContext(AuthContext);
+  if (authCtx.session == null) {
     throw new Error("User not logged in");
   }
 

@@ -21,6 +21,8 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
     }
   }
 
+  console.log(event, "EVENT>>>>");
+
   return (
     <div>
      <input type="checkbox" id={event.id} onClick={onClick} defaultChecked={eventScheduled}></input>

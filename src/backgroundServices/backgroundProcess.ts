@@ -1,5 +1,5 @@
 import { getEnvironmentVariable } from "../lib/getEnvironmentVariable";
-import { AuthTokens } from "../model/AuthTokens";
+import { AuthSession } from "../model/AuthSession";
 import { getStorageKey, setStorageKey } from "../lib/chromeStorageHandlers";
 import { ScheduledEvent } from "../model/ScheduledEvent";
 
@@ -81,13 +81,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const response = await fetch("https://oauth2.googleapis.com/token", options);
         const body = await response.json()
 
-        const authTokens: AuthTokens = {
+        const emailRequestResponse = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${body.access_token}`);
+        const emailBody = await emailRequestResponse.json();
+
+        const authSession: AuthSession = {
           accessToken: body.access_token,
           refreshToken: body.refresh_token,
+          userEmail: emailBody.email,
         }
 
-        await setStorageKey("authTokens", authTokens);
-        sendResponse(authTokens)
+        await setStorageKey("authSession", authSession);
+
+        console.log(emailBody, "EMAIL>>>>>>>>>");
+
+        sendResponse(authSession)
       }
     })
 
@@ -105,9 +112,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.message.operation === "logout") {
-    chrome.storage.local.remove("authTokens", () => {
+    chrome.storage.local.remove("eventSchedule");
+    chrome.storage.local.remove("authSession", () => {
       sendResponse(true)
-    })
+    });
+
   }
 
 
@@ -123,7 +132,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     fetch("https://oauth2.googleapis.com/token", options).then((response) => {
       response.json().then((body) => {
-        setStorageKey("authTokens", {
+        setStorageKey("authSession", {
           accessToken: body.access_token,
           refreshToken,
         }).then(() => {

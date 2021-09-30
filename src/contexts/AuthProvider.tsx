@@ -2,59 +2,60 @@ import React, { useCallback, useEffect, useState } from "react";
 import { LoginButton } from "../components/LoginButton";
 import { AuthContext } from "./AuthContext";
 import { getStorageKey } from "../lib/chromeStorageHandlers";
-import { AuthTokens } from "../model/AuthTokens";
+import { AuthSession } from "../model/AuthSession";
 
 export const AuthProvider: React.FC<{}> = ({ children }) => {
-  const [tokens, setTokens] = useState<AuthTokens | null>(null);
-  const [tokensLoading, setTokensLoading] = useState(true);
+  const [session, setSession] = useState<AuthSession | null>(null);
+  const [sessionLoading, setSessionLoading] = useState(true);
 
-  const fetchTokens = useCallback(async () => {
-    const tokensFromStorage = await getStorageKey<AuthTokens>("authTokens");
-    console.log(tokensFromStorage, "tokens from storage...");
-    if (tokensFromStorage == null) {
-      setTokens(null);
-      setTokensLoading(false);
+  const fetchSession = useCallback(async () => {
+    const sessionFromStorage = await getStorageKey<AuthSession>("authSession");
+    console.log(sessionFromStorage, "session from storage...");
+    if (sessionFromStorage == null) {
+      setSession(null);
+      setSessionLoading(false);
 
       return;
     }
 
-    console.log("validating token...");
+    console.log("validating session...");
     chrome.runtime.sendMessage({
       message: {
         operation: "validate_token",
-        token: tokensFromStorage?.accessToken
+        token: sessionFromStorage?.accessToken
       }
     }, (tokenValid) => {
       if (!tokenValid) {
-        console.log("about to refresh token...")
+        console.log("about to refresh session...")
         chrome.runtime.sendMessage({
           message: {
             operation: "refresh_token",
-            refreshToken: tokensFromStorage.refreshToken,
+            refreshToken: sessionFromStorage.refreshToken,
           },
         }, (accessToken) => {
-          console.log("saving newly refreshed token...", accessToken);
-          setTokens({
+          console.log("saving newly refreshed tokens...", accessToken);
+          setSession({
             accessToken,
-            refreshToken: tokensFromStorage?.refreshToken,
+            refreshToken: sessionFromStorage?.refreshToken,
+            userEmail: sessionFromStorage?.userEmail,
           });
-          setTokensLoading(false);
+          setSessionLoading(false);
         })
       }
       else {
-        console.log("token from storage is still valid...");
-        setTokens(tokensFromStorage)
-        setTokensLoading(false);
+        console.log("session from storage is still valid...");
+        setSession(sessionFromStorage)
+        setSessionLoading(false);
       }
     });
 
-  }, [setTokens, setTokensLoading])
+  }, [setSession, setSessionLoading])
 
   useEffect(() => {
-    fetchTokens();
-  }, [fetchTokens]);
+    fetchSession();
+  }, [fetchSession]);
 
-  if (tokensLoading) {
+  if (sessionLoading) {
     return (
       <p>Loading your session...</p>
     )
@@ -62,10 +63,10 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      tokens,
-      setTokens
+      session,
+      setSession
     }}>
-      { tokens != null ? children : <LoginButton setTokens={setTokens} setTokenLoading={setTokensLoading} /> }
+      { session != null ? children : <LoginButton setTokens={setSession} setTokenLoading={setSessionLoading} /> }
     </AuthContext.Provider>
   )
 }
