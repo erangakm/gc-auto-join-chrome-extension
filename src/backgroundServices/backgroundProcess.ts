@@ -91,9 +91,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
 
         await setStorageKey("authSession", authSession);
-
-        console.log(emailBody, "EMAIL>>>>>>>>>");
-
         sendResponse(authSession)
       }
     })

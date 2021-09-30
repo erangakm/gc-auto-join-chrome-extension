@@ -1,3 +1,4 @@
+import { AuthSession } from "../model/AuthSession";
 import { Event } from "../model/googleCalendar/Event";
 import { ScheduledEvent } from "../model/ScheduledEvent";
 import { transformEvent } from "./transformEvent";
@@ -22,9 +23,14 @@ export const setStorageKey = async (key: string, value: any): Promise<void> => {
 }
 
 export const addEventToSchedule = async (event: Event): Promise<void> => {
+  const currentSession = await getStorageKey<AuthSession>("authSession");
+  if (currentSession == null) {
+    throw new Error("user not logged in");
+  }
+
   const schedule = (await getStorageKey<ScheduledEvent[]>("eventSchedule")) ?? [];
   schedule.push(
-    transformEvent(event)
+    transformEvent(event, currentSession.userEmail)
   );
   await setStorageKey("eventSchedule", schedule);
 }
