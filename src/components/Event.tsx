@@ -8,9 +8,10 @@ import {
 
 interface Props {
   event: EventSource;
+  eventScheduled: boolean;
 }
 
-export const Event: React.FC<Props> = ({ event }) => {
+export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
   const onClick = async (e: any) => {
     const eventSelected = e.target.checked;
     if (eventSelected) {
@@ -20,11 +21,9 @@ export const Event: React.FC<Props> = ({ event }) => {
     }
   }
 
-  console.log(event, "EVENT>>>>");
-
   return (
     <div>
-     <input type="checkbox" id={event.id} onClick={onClick}></input>
+     <input type="checkbox" id={event.id} onClick={onClick} defaultChecked={eventScheduled}></input>
      <label htmlFor={event.id}>
       {event.summary}: {dayjs(event.start.dateTime).format("h:ma")} - {dayjs(event.end.dateTime).format("h:ma")}
      </label>

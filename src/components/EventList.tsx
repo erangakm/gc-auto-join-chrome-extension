@@ -3,6 +3,8 @@ import { AuthContext } from "../contexts/AuthContext";
 import dayjs from "dayjs";
 import { Event } from "../model/googleCalendar/Event";
 import { Event as EventComponent } from "./Event";
+import { ScheduledEvent } from "../model/ScheduledEvent";
+import { getStorageKey } from "../lib/chromeStorageHandlers";
 
 export const EventList: React.FC<{}> = () => {
   const session = useContext(AuthContext);
@@ -12,6 +14,7 @@ export const EventList: React.FC<{}> = () => {
 
   const [events, setEvents] = useState<Event[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
+  const [eventSchedule, setEventSchedule] = useState<ScheduledEvent[]>([]);
 
   useEffect(() => {
     const now = dayjs();
@@ -34,13 +37,22 @@ export const EventList: React.FC<{}> = () => {
     fetchData();
   }, [session.tokens]);
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const events = await getStorageKey<ScheduledEvent[]>("eventSchedule");
+      setEventSchedule(events ?? [])
+    }
+
+    fetchEvents();
+  }, [setEventSchedule]);
+
   return (
     <>
       {eventsLoading ? <p>Events loading...</p> :
         <>
           {
             events.map((event, i) => (
-              <EventComponent key={i} event={event} />
+              <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
             ))
           }
           { events.length === 0 ? <p>No events today</p> : null  }
