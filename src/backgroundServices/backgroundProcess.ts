@@ -19,14 +19,17 @@ export const joinMeetings = async () => {
   console.log( "Ran alarm at ->", now.toLocaleString("en-US", {
     hour12: true,
     hour: "numeric",
-    minute: "numeric"
+    minute: "numeric",
+    second: "numeric"
   }));
 
   const schedule = await getStorageKey<ScheduledEvent[]>("eventSchedule") ?? [];
+  console.log(schedule, "SCHEDULE>>>>>>>>>");
   schedule.forEach((schedulledEvent) => {
     const timeDifferenceInSeconds = (schedulledEvent.startTime - now.valueOf()) / 1000;
     if (timeDifferenceInSeconds < 60 && timeDifferenceInSeconds > 0) {
-      chrome.notifications.create(`notification-${now.valueOf()}`, {
+      // Send the first notification telling the user they will be redirected within the minute.
+      chrome.notifications.create(`notification-${now.valueOf()}-1`, {
         type: "basic",
         iconUrl: "logo192.png",
         title: "Event about to start",
@@ -34,6 +37,19 @@ export const joinMeetings = async () => {
         priority: 2
       });
       console.log(`${schedulledEvent.title} starting in ${timeDifferenceInSeconds} seconds`);
+
+      // Send another notification 3 seconds before joining the meeting.
+      setTimeout(() => {
+        chrome.notifications.create(`notification-${now.valueOf()}-2`, {
+          type: "basic",
+          iconUrl: "logo192.png",
+          title: "Event about to start",
+          message: `You will be joining your hangouts meeting "${schedulledEvent.title}" in 3 seconds`,
+          priority: 2
+        });
+      }, (timeDifferenceInSeconds - 3) * 1000)
+
+      // Actual tab opening.
       setTimeout(() => {
         console.log("opening link ->", schedulledEvent.link);
         chrome.tabs.create({ url: schedulledEvent.link });
@@ -132,6 +148,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         setStorageKey("authSession", {
           accessToken: body.access_token,
           refreshToken,
+          userEmail: request.message.userEmail,
         }).then(() => {
           sendResponse(body.access_token);
         });
