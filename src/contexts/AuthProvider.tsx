@@ -31,6 +31,7 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
           message: {
             operation: "refresh_token",
             refreshToken: sessionFromStorage.refreshToken,
+            userEmail: sessionFromStorage.userEmail,
           },
         }, (accessToken) => {
           console.log("saving newly refreshed tokens...", accessToken);
