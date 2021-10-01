@@ -25,7 +25,7 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
     <div>
      <input type="checkbox" id={event.id} onClick={onClick} defaultChecked={eventScheduled}></input>
      <label htmlFor={event.id}>
-      {event.summary}: {dayjs(event.start.dateTime).format("h:ma")} - {dayjs(event.end.dateTime).format("h:ma")}
+      {event.summary}: {dayjs(event.start.dateTime).format("h:mma")} - {dayjs(event.end.dateTime).format("h:mma")}
      </label>
     </div>
   )
