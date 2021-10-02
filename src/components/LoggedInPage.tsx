@@ -13,7 +13,7 @@ export const LoggedInPage: React.FC<{}> = () => {
   }
 
   return (
-    <Box m={2}>
+    <Box>
       <EventList eventsLoading={eventsLoading} setEventsLoading={setEventsLoading} />
       { !eventsLoading ? <Box mt={2}><LogoutButton /></Box> : null }
     </Box>

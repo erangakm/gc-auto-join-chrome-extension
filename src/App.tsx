@@ -1,13 +1,16 @@
-import './App.css';
+import "./styles/styles.scss"
 
+import { AppHeader } from "./components/AppHeader";
 import { LoggedInPage } from "./components/LoggedInPage";
 import { AuthProvider } from "./contexts/AuthProvider";
 
 function App() {
   return (
-    <AuthProvider>
-      <LoggedInPage />
-    </AuthProvider>
+    <AppHeader>
+      <AuthProvider>
+        <LoggedInPage />
+      </AuthProvider>
+    </AppHeader>
   );
 }
 
