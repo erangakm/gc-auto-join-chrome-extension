@@ -9,8 +9,8 @@
     "default_title": "Schedule your meetings to be auto-joined"
   },
   "icons": {
-    "16": "logo192.png",
-    "48": "logo192.png",
+    "16": "logo64.png",
+    "48": "logo64.png",
     "128": "logo192.png"
   },
   "permissions": [
