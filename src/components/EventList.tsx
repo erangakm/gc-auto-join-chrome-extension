@@ -48,9 +48,9 @@ export const EventList: React.FC<{}> = () => {
   }, [setEventSchedule]);
 
   return (
-    <>
-      {eventsLoading ? <p>Events loading...</p> :
-        <div className="pb-2">
+    <div className="p-2">
+      {eventsLoading ? <p className="mt-2">Events loading...</p> :
+        <>
           {
             events
               .map((event, i) => (
@@ -58,8 +58,8 @@ export const EventList: React.FC<{}> = () => {
             ))
           }
           { events.length === 0 ? <p>No events today</p> : null  }
-        </div>
+        </>
       }
-    </>
+    </div>
   )
 };

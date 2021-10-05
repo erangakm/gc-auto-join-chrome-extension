@@ -20,7 +20,7 @@ export const AppHeader: React.FC<{}> = ({ children }) => {
         </div>
       </div>
       <Seperator />
-      <div className="p-2">
+      <div>
         {children}
       </div>
     </>

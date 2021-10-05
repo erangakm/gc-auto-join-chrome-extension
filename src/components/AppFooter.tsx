@@ -6,7 +6,7 @@ export const AppFooter: React.FC<{}> = () => {
   return (
     <div>
       <Seperator />
-      <div className="container">
+      <div className="container p-0 pb-2">
         <div className="row">
           <div className="col text-center">
             <LogoutButton />
