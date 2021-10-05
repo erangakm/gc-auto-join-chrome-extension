@@ -58,7 +58,7 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
 
   if (sessionLoading) {
     return (
-      <p className="mt-2">Loading your session...</p>
+      <p className="p-2 mt-2">Loading your session...</p>
     )
   }
 
