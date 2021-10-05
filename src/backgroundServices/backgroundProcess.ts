@@ -16,6 +16,10 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 export const joinMeetings = async () => {
   const now = new Date();
 
+  // chrome.tabs.query({}, (tabs) => {
+  //   console.log(tabs, "TABLS>>>>>>>>>");
+  // })
+
   console.log( "Ran alarm at ->", now.toLocaleString("en-US", {
     hour12: true,
     hour: "numeric",

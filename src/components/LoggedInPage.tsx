@@ -1,4 +1,3 @@
-import { Box } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { EventList } from "./EventList";
@@ -13,9 +12,9 @@ export const LoggedInPage: React.FC<{}> = () => {
   }
 
   return (
-    <Box>
+    <>
       <EventList eventsLoading={eventsLoading} setEventsLoading={setEventsLoading} />
-      { !eventsLoading ? <Box mt={2}><LogoutButton /></Box> : null }
-    </Box>
+      { !eventsLoading ? <LogoutButton /> : null }
+    </>
   )
 };

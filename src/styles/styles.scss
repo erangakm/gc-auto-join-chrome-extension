@@ -1,1 +1,8 @@
-@import "./fonts";
+body {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 340px;
+  min-height: 120px;
+  /* height: 400px; */
+}

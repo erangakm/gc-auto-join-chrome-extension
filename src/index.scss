@@ -1,10 +1,4 @@
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  font-size: 15px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  width: 340px;
-  min-height: 120px;
-  /* height: 400px; */
-}
+@import "./styles/fonts";
+@import "./styles/variables";
+@import "./styles//styles";
+@import "node_modules/bootstrap/scss/bootstrap";
