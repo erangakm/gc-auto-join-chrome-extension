@@ -57,7 +57,7 @@ export const EventList: React.FC<{}> = () => {
                 <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
             ))
           }
-          { events.length === 0 ? <p>No events today</p> : null  }
+          { events.length === 0 ? <p className="mt-2">No events today</p> : null  }
         </>
       }
     </div>
