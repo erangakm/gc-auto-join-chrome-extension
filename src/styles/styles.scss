@@ -1,8 +1,21 @@
 body {
-  font-size: 15px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 340px;
-  min-height: 120px;
-  /* height: 400px; */
+  // min-height: 200px;
+}
+
+.logout-button {
+  font-weight: 800 !important;
+  font-size: 13px !important;
+  color: #727171d9 !important;
+  border: 1px solid #dadce0 !important;
+
+  &:hover {
+    background-color: white;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0 !important;
+  }
 }

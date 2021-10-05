@@ -1,14 +1,16 @@
 import "./styles/styles.scss"
 
 import { AppHeader } from "./components/AppHeader";
-import { LoggedInPage } from "./components/LoggedInPage";
 import { AuthProvider } from "./contexts/AuthProvider";
+import { EventList } from "./components/EventList";
+import { AppFooter } from "./components/AppFooter";
 
 function App() {
   return (
     <AppHeader>
       <AuthProvider>
-        <LoggedInPage />
+        <EventList />
+        <AppFooter />
       </AuthProvider>
     </AppHeader>
   );

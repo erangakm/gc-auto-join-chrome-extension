@@ -6,17 +6,13 @@ import { Event as EventComponent } from "./Event";
 import { ScheduledEvent } from "../model/ScheduledEvent";
 import { getStorageKey } from "../lib/chromeStorageHandlers";
 
-interface Props {
-  eventsLoading: boolean;
-  setEventsLoading: (loading: boolean) => void;
-}
-
-export const EventList: React.FC<Props> = ({ eventsLoading, setEventsLoading }) => {
+export const EventList: React.FC<{}> = () => {
   const authCtx = useContext(AuthContext);
   if (authCtx.session == null) {
     throw new Error("User not logged in");
   }
 
+  const [eventsLoading, setEventsLoading] = useState(true);
   const [events, setEvents] = useState<Event[]>([]);
   const [eventSchedule, setEventSchedule] = useState<ScheduledEvent[]>([]);
 
@@ -54,7 +50,7 @@ export const EventList: React.FC<Props> = ({ eventsLoading, setEventsLoading }) 
   return (
     <>
       {eventsLoading ? <p>Events loading...</p> :
-        <>
+        <div className="pb-2">
           {
             events
               .map((event, i) => (
@@ -62,7 +58,7 @@ export const EventList: React.FC<Props> = ({ eventsLoading, setEventsLoading }) 
             ))
           }
           { events.length === 0 ? <p>No events today</p> : null  }
-        </>
+        </div>
       }
     </>
   )

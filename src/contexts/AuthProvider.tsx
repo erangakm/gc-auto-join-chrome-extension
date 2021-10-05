@@ -67,7 +67,17 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
       session,
       setSession
     }}>
-      { session != null ? children : <LoginButton setTokens={setSession} setTokenLoading={setSessionLoading} /> }
+      { session != null
+        ? children :
+          <div style={{
+            display: "flex",
+            height: "130px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+            <LoginButton setTokens={setSession} setTokenLoading={setSessionLoading} />
+          </div>
+      }
     </AuthContext.Provider>
   )
 }

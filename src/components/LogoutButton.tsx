@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import Button from "react-bootstrap/Button";
 import { AuthContext } from "../contexts/AuthContext";
 
 export const LogoutButton: React.FC<{}> = () => {
@@ -18,6 +19,12 @@ export const LogoutButton: React.FC<{}> = () => {
   }
 
   return (
-    <button onClick={onClick}>Sign out</button>
+    <Button
+      variant="outline-secondary"
+      className="mt-3 mb-2 logout-button"
+      onClick={onClick}
+    >
+      Sign out of {authCtx.session.userEmail}
+    </Button>
   )
 };

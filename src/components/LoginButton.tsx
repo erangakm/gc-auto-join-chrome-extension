@@ -1,5 +1,6 @@
 import React from "react";
 import { AuthSession } from "../model/AuthSession";
+import GoogleButton from 'react-google-button'
 
 interface Props {
   setTokens: (token: AuthSession) => void;
@@ -19,6 +20,10 @@ export const LoginButton: React.FC<Props> = ({ setTokens, setTokenLoading }) => 
   }
 
   return (
-    <button onClick={onClick}>Login to Google Calendar</button>
+    <GoogleButton style={{
+      fontWeight: 800,
+      width: "280px",
+      fontSize: "15px"
+    }} label="Sign in with Google Calendar" onClick={onClick}></GoogleButton>
   )
 };
