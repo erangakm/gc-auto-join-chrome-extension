@@ -4,16 +4,16 @@ import React from "react";
 export const AppHeader: React.FC<{}> = ({ children }) => {
   return (
     <>
-      <Grid container style={{ padding: "8px" }}>
+      <Grid container style={{ padding: "8px", paddingBottom: "0px" }}>
         <Grid item xs={2}>
-          <img width={"40px"} alt="logo" src="./logo64.png"></img>
+          <img width={"35px"} alt="logo" src="./logo64.png"></img>
         </Grid>
         <Grid item xs={10}>
           <p style={{
-            fontSize: "16px",
+            fontSize: "15px",
             fontWeight: 800,
             marginTop: "4%",
-            marginLeft: "-2%"
+            marginLeft: "-5%"
           }}>Google Calendar assistant</p>
         </Grid>
       </Grid>

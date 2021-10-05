@@ -34,7 +34,8 @@ export const EventList: React.FC<Props> = ({ eventsLoading, setEventsLoading }) 
     const fetchData = async () => {
       const response = await fetch(url, options)
       const data = await response.json();
-      setEvents(data.items as Event[]);
+      const filteredEvents = data.items.filter((event: any) => event.hangoutLink != null)
+      setEvents(filteredEvents as Event[]);
       setEventsLoading(false);
     }
 
@@ -56,7 +57,6 @@ export const EventList: React.FC<Props> = ({ eventsLoading, setEventsLoading }) 
         <>
           {
             events
-              .filter((event) => event.hangoutLink != null)
               .map((event, i) => (
                 <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
             ))
