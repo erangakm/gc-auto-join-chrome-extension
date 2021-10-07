@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import {
   addEventToSchedule,
   removeEventFromSchedule
-} from "../lib/chromeStorageHandlers";
+} from "../lib/eventScheduleHandlers";
 
 interface Props {
   event: EventSource;
@@ -15,9 +15,9 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
   const onClick = async (e: any) => {
     const eventSelected = e.target.checked;
     if (eventSelected) {
-      await addEventToSchedule(event)
+      await addEventToSchedule(event);
     } else {
-      await removeEventFromSchedule(event.id)
+      await removeEventFromSchedule(event.id);
     }
   }
 

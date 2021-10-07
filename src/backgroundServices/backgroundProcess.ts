@@ -2,6 +2,8 @@ import { getEnvironmentVariable } from "../lib/getEnvironmentVariable";
 import { AuthSession } from "../model/AuthSession";
 import { getStorageKey, setStorageKey } from "../lib/chromeStorageHandlers";
 import { ScheduledEvent } from "../model/ScheduledEvent";
+import { logEvent } from "./logger";
+import { AlarmTypes } from "../model/AlarmTypes";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('onInstalled...');
@@ -9,58 +11,87 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.alarms.create('refresh', { periodInMinutes: 1 });
 });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-  joinMeetings();
-});
+const eventAlarmValidator = (alarmName: string): { eventId: string; alarmType: AlarmTypes } | null => {
+  const deconstructed = alarmName.split("--");
 
-export const joinMeetings = async () => {
+  if (deconstructed.length === 3 && deconstructed[0] === "eventSchudule") {
+    return {
+      eventId: deconstructed[1],
+      alarmType: deconstructed[2] as AlarmTypes,
+    }
+  }
+
+  return null;
+}
+
+const findEventInSchedule = async (eventId: string): Promise<ScheduledEvent | null> => {
+  const allEvents = await getStorageKey<ScheduledEvent[]>("eventSchedule") ?? [];
+
+  return allEvents.find((event) => event.id === eventId) ?? null;
+}
+
+const sendReminder = async (scheduledEvent: ScheduledEvent, alarmType: AlarmTypes) => {
   const now = new Date();
 
-  // chrome.tabs.query({}, (tabs) => {
-  //   console.log(tabs, "TABLS>>>>>>>>>");
-  // })
+  const title = alarmType === AlarmTypes.OneMinuteReminder ?
+    "Event about to start" : "Event starting now";
+  const baseMessage = `You will be joining your hangouts meeting "${scheduledEvent.title}"`;
+  const message = alarmType === AlarmTypes.OneMinuteReminder ?
+    `${baseMessage} in a minute` : `${baseMessage} NOW!`
 
-  console.log( "Ran alarm at ->", now.toLocaleString("en-US", {
+  chrome.notifications.create(`notification-${now.valueOf()}-1`, {
+    type: "basic",
+    iconUrl: "logo192.png",
+    title,
+    message,
+    priority: alarmType === AlarmTypes.OneMinuteReminder ? 2 : 1
+  })
+};
+
+const joinMeeting = (event: ScheduledEvent) => {
+  // chrome.tabs.query({}, (tabs) => {
+  //   //   console.log(tabs, "TABLS>>>>>>>>>");
+  //   // })
+
+  chrome.tabs.create({ url: event.link })
+}
+
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  console.log( "alarm fired ->", alarm.name, new Date().toLocaleString("en-US", {
     hour12: true,
     hour: "numeric",
     minute: "numeric",
     second: "numeric"
   }));
 
-  const schedule = await getStorageKey<ScheduledEvent[]>("eventSchedule") ?? [];
-  console.log(schedule, "SCHEDULE>>>>>>>>>");
-  schedule.forEach((schedulledEvent) => {
-    const timeDifferenceInSeconds = (schedulledEvent.startTime - now.valueOf()) / 1000;
-    if (timeDifferenceInSeconds < 60 && timeDifferenceInSeconds > 0) {
-      // Send the first notification telling the user they will be redirected within the minute.
-      chrome.notifications.create(`notification-${now.valueOf()}-1`, {
-        type: "basic",
-        iconUrl: "logo192.png",
-        title: "Event about to start",
-        message: `You will be joining your hangouts meeting "${schedulledEvent.title}" within a minute`,
-        priority: 2
-      });
-      console.log(`${schedulledEvent.title} starting in ${timeDifferenceInSeconds} seconds`);
+  const eventScheduleAlarm = eventAlarmValidator(alarm.name);
+  if (eventScheduleAlarm == null) {
+    return;
+  }
 
-      // Send another notification 3 seconds before joining the meeting.
-      setTimeout(() => {
-        chrome.notifications.create(`notification-${now.valueOf()}-2`, {
-          type: "basic",
-          iconUrl: "logo192.png",
-          title: "Event about to start",
-          message: `You will be joining your hangouts meeting "${schedulledEvent.title}" in 3 seconds`,
-          priority: 2
-        });
-      }, (timeDifferenceInSeconds - 3) * 1000)
+  const { eventId, alarmType } = eventScheduleAlarm;
 
-      // Actual tab opening.
-      setTimeout(() => {
-        console.log("opening link ->", schedulledEvent.link);
-        chrome.tabs.create({ url: schedulledEvent.link });
-      }, timeDifferenceInSeconds * 1000)
-    }
-  });
-}
+  const scheduledEvent = await findEventInSchedule(eventId);
+  if (scheduledEvent == null) {
+    logEvent(`Event ${eventId} not found in schedule`);
+
+    return;
+  }
+
+  switch(eventScheduleAlarm.alarmType) {
+    case AlarmTypes.OneMinuteReminder:
+    case AlarmTypes.ThreeSecondReminder:
+      await sendReminder(scheduledEvent, alarmType);
+      break;
+
+    case AlarmTypes.MeetingRedirect:
+      joinMeeting(scheduledEvent);
+      break;
+
+    default:
+      return;
+  }
+});
 
 const CLIENT_ID = encodeURIComponent(getEnvironmentVariable("REACT_APP_OAUTH_CLIENT_ID"));
 const REDIRECT_URI = encodeURIComponent('https://mghoimjmeppliamlmihmenbhaipcodap.chromiumapp.org/')

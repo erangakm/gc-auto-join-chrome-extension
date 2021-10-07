@@ -1,8 +1,3 @@
-import { AuthSession } from "../model/AuthSession";
-import { Event } from "../model/googleCalendar/Event";
-import { ScheduledEvent } from "../model/ScheduledEvent";
-import { transformEvent } from "./transformEvent";
-
 export const getStorageKey = async <T = any>(key: string): Promise<T | null> =>
   new Promise((resolve) => {
     let value: T | null = null;
@@ -20,23 +15,4 @@ export const setStorageKey = async (key: string, value: any): Promise<void> => {
   }
 
   await chrome.storage.local.set({ [key]: value })
-}
-
-export const addEventToSchedule = async (event: Event): Promise<void> => {
-  const currentSession = await getStorageKey<AuthSession>("authSession");
-  if (currentSession == null) {
-    throw new Error("user not logged in");
-  }
-
-  const schedule = (await getStorageKey<ScheduledEvent[]>("eventSchedule")) ?? [];
-  schedule.push(
-    transformEvent(event, currentSession.userEmail)
-  );
-  await setStorageKey("eventSchedule", schedule);
-}
-
-export const removeEventFromSchedule = async (eventId: string): Promise<void> => {
-  const schedule = (await getStorageKey<ScheduledEvent[]>("eventSchedule")) ?? [];
-  const newSchedule = schedule.filter((s) => s.id !== eventId);
-  await setStorageKey("eventSchedule", newSchedule)
 }
