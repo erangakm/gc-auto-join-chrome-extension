@@ -15,7 +15,7 @@ export const AppHeader: React.FC<{}> = ({ children }) => {
               lineHeight: "35px",
               position: "relative",
               top: "4px",
-            }} className="center mb-0 d-inline-block">Google Calendar assistant</p>
+            }} className="center mb-0 d-inline-block">Video meetings assistant</p>
           </div>
         </div>
       </div>
