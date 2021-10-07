@@ -53,6 +53,7 @@ export const EventList: React.FC<{}> = () => {
         <>
           {
             events
+              .sort((a, b) => new Date(a.start.dateTime).valueOf() < new Date(b.start.dateTime).valueOf() ? -1 : 0)
               .map((event, i) => (
                 <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
             ))
