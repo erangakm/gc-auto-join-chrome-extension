@@ -49,7 +49,7 @@ export const EventList: React.FC<{}> = () => {
 
   return (
     <div className="">
-      {eventsLoading ? <p className="mt-2 appear-with-fade-in">Events loading...</p> :
+      {eventsLoading ? <p className="mt-2 pl-2 appear-with-fade-in">Events loading...</p> :
         <>
           {
             events
