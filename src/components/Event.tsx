@@ -34,13 +34,15 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
         </div>
         <div className="col-8 pl-0">
           <div className="row">
-            <div className="col" style={{ fontWeight: 800 }}>
-              {event.summary}
+            <div className="col event-name" style={{ fontWeight: 800 }}>
+              <a style={{
+                color: "#212529"
+              }} target="_blank" rel="noreferrer" href={event.hangoutLink}>{event.summary}</a>
             </div>
           </div>
           <div className="row">
             <div className="col">
-              {dayjs(event.start.dateTime).format("h:mma")} - {dayjs(event.end.dateTime).format("h:mma")}
+              <span style={{fontSize: "12px"}}>{dayjs(event.start.dateTime).format("h:mma")} - {dayjs(event.end.dateTime).format("h:mma")}</span>
             </div>
           </div>
         </div>

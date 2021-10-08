@@ -26,6 +26,10 @@ body {
   }
 }
 
+.event-name a:hover {
+  text-decoration: none !important;
+}
+
 .event:first-child .event-row {
   padding-top: 14px !important;
 }
