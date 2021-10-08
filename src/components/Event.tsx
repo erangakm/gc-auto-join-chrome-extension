@@ -21,12 +21,36 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
     }
   }
 
+  const middleAlignStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+  }
+
   return (
-    <div className="appear-with-fade-in custom-control custom-switch my-2">
-     <input type="checkbox" className="custom-control-input" id={event.id} onClick={onClick} defaultChecked={eventScheduled}></input>
-     <label className="custom-control-label" htmlFor={event.id}>
-      {event.summary}: {dayjs(event.start.dateTime).format("h:mma")} - {dayjs(event.end.dateTime).format("h:mma")}
-     </label>
+    <div className="container-fluid appear-with-fade-in event">
+      <div className="event-row row py-2">
+        <div className="col-2" style={middleAlignStyle}>
+          <img className="" src="./meet.png" alt="Hangout meeting" style={{ width: "25px" }} />
+        </div>
+        <div className="col-8 pl-0">
+          <div className="row">
+            <div className="col" style={{ fontWeight: 800 }}>
+              {event.summary}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              {dayjs(event.start.dateTime).format("h:mma")} - {dayjs(event.end.dateTime).format("h:mma")}
+            </div>
+          </div>
+        </div>
+        <div className="col-2" style={middleAlignStyle}>
+          <div className="custom-control custom-switch">
+            <input type="checkbox" className="custom-control-input" id={event.id} onClick={onClick} defaultChecked={eventScheduled}></input>
+            <label className="custom-control-label" htmlFor={event.id}></label>
+          </div>
+        </div>
+      </div>
     </div>
   )
 };

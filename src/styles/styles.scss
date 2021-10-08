@@ -12,12 +12,26 @@ body {
   border: 1px solid #dadce0 !important;
 
   &:hover {
-    background-color: white;
+    background-color: #f7f8f8;
   }
 
   &:focus {
     box-shadow: 0 0 0 0 !important;
   }
+}
+
+.event {
+  &:hover {
+    background-color: #f7f8f8;
+  }
+}
+
+.event:first-child .event-row {
+  padding-top: 14px !important;
+}
+
+.event:last-child .event-row {
+  padding-bottom: 12px !important;
 }
 
 .appear-with-fade-in {

@@ -48,7 +48,7 @@ export const EventList: React.FC<{}> = () => {
   }, [setEventSchedule]);
 
   return (
-    <div className="p-2">
+    <div className="">
       {eventsLoading ? <p className="mt-2 appear-with-fade-in">Events loading...</p> :
         <>
           {
