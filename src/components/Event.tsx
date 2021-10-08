@@ -22,7 +22,7 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
   }
 
   return (
-    <div className="custom-control custom-switch my-2">
+    <div className="appear-with-fade-in custom-control custom-switch my-2">
      <input type="checkbox" className="custom-control-input" id={event.id} onClick={onClick} defaultChecked={eventScheduled}></input>
      <label className="custom-control-label" htmlFor={event.id}>
       {event.summary}: {dayjs(event.start.dateTime).format("h:mma")} - {dayjs(event.end.dateTime).format("h:mma")}

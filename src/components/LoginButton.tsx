@@ -24,6 +24,6 @@ export const LoginButton: React.FC<Props> = ({ setTokens, setTokenLoading }) => 
       fontWeight: 800,
       width: "280px",
       fontSize: "15px"
-    }} label="Sign in with Google Calendar" onClick={onClick}></GoogleButton>
+    }} className="appear-with-fade-in" label="Sign in with Google Calendar" onClick={onClick}></GoogleButton>
   )
 };
