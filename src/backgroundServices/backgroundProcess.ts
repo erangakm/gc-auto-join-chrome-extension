@@ -50,8 +50,8 @@ const sendReminder = async (scheduledEvent: ScheduledEvent, alarmType: AlarmType
 
 const joinMeeting = (event: ScheduledEvent) => {
   // chrome.tabs.query({}, (tabs) => {
-  //   //   console.log(tabs, "TABLS>>>>>>>>>");
-  //   // })
+  //   console.log(tabs, "TABLS>>>>>>>>>");
+  // })
 
   chrome.tabs.create({ url: event.link })
 }
@@ -63,6 +63,9 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     minute: "numeric",
     second: "numeric"
   }));
+
+  const schedule = await getStorageKey<ScheduledEvent[]>("eventSchedule");
+  console.log(schedule, "SCHEDULE>>>>>>>.");
 
   const eventScheduleAlarm = eventAlarmValidator(alarm.name);
   if (eventScheduleAlarm == null) {
@@ -160,11 +163,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.message.operation === "logout") {
+    chrome.alarms.clearAll();
     chrome.storage.local.remove("eventSchedule");
     chrome.storage.local.remove("authSession", () => {
       sendResponse(true)
     });
-
   }
 
 

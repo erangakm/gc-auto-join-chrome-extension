@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import dayjs from "dayjs";
-import { Event } from "../model/googleCalendar/Event";
 import { Event as EventComponent } from "./Event";
 import { ScheduledEvent } from "../model/ScheduledEvent";
 import { getStorageKey } from "../lib/chromeStorageHandlers";
+import { isSupportedVideoMeetingPlatform } from "../lib/eventHelpers";
+import { EventWithMeeting } from "../model/googleCalendar/EventWithMeeting";
 
 export const EventList: React.FC<{}> = () => {
   const authCtx = useContext(AuthContext);
@@ -13,7 +14,7 @@ export const EventList: React.FC<{}> = () => {
   }
 
   const [eventsLoading, setEventsLoading] = useState(true);
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<EventWithMeeting[]>([]);
   const [eventSchedule, setEventSchedule] = useState<ScheduledEvent[]>([]);
 
   useEffect(() => {
@@ -30,8 +31,9 @@ export const EventList: React.FC<{}> = () => {
     const fetchData = async () => {
       const response = await fetch(url, options)
       const data = await response.json();
-      const filteredEvents = data.items.filter((event: any) => event.hangoutLink != null)
-      setEvents(filteredEvents as Event[]);
+      console.log(data.items, "MEETINGS>>>>>>>>>");
+      const filteredEvents = data.items.filter(isSupportedVideoMeetingPlatform)
+      setEvents(filteredEvents as EventWithMeeting[]);
       setEventsLoading(false);
     }
 
@@ -46,6 +48,8 @@ export const EventList: React.FC<{}> = () => {
 
     fetchEvents();
   }, [setEventSchedule]);
+
+  console.log("calling event list")
 
   return (
     <div className="">

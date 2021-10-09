@@ -1,12 +1,12 @@
 import { AuthSession } from "../model/AuthSession";
-import { Event } from "../model/googleCalendar/Event";
 import { ScheduledEvent } from "../model/ScheduledEvent";
 import { getStorageKey, setStorageKey } from "./chromeStorageHandlers";
 import { transformEvent } from "./transformEvent";
 import dayjs from "dayjs";
 import { AlarmTypes } from "../model/AlarmTypes";
+import { EventWithMeeting } from "../model/googleCalendar/EventWithMeeting";
 
-export const addEventToSchedule = async (event: Event): Promise<void> => {
+export const addEventToSchedule = async (event: EventWithMeeting): Promise<void> => {
   const eventTime = new Date(event.start.dateTime).valueOf();
 
   // Reminder for 1 minute before.
@@ -35,7 +35,7 @@ export const removeEventFromSchedule = async (eventId: string): Promise<void> =>
 }
 
 
-export const persistScheduledEventInStorage = async (event: Event): Promise<void> => {
+export const persistScheduledEventInStorage = async (event: EventWithMeeting): Promise<void> => {
   const currentSession = await getStorageKey<AuthSession>("authSession");
   if (currentSession == null) {
     throw new Error("user not logged in");

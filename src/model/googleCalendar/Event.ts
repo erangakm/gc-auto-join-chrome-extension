@@ -1,3 +1,4 @@
+import { ConferenceData } from "./ConferenceData";
 import { DateTime } from "./DateTime";
 
 export interface Event {
@@ -6,5 +7,5 @@ export interface Event {
   end: DateTime;
   status: string;
   summary: string;
-  hangoutLink?: string;
+  conferenceData?: ConferenceData;
 }
