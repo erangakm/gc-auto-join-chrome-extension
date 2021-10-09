@@ -6,6 +6,7 @@ import { ScheduledEvent } from "../model/ScheduledEvent";
 import { getStorageKey } from "../lib/chromeStorageHandlers";
 import { isSupportedVideoMeetingPlatform } from "../lib/eventHelpers";
 import { EventWithMeeting } from "../model/googleCalendar/EventWithMeeting";
+import { NoEventsScreen } from "./NoEventsScreen";
 
 export const EventList: React.FC<{}> = () => {
   const authCtx = useContext(AuthContext);
@@ -62,7 +63,7 @@ export const EventList: React.FC<{}> = () => {
                 <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
             ))
           }
-          { events.length === 0 ? <p className="mt-2">No events today</p> : null  }
+          { events.length === 0 ? <NoEventsScreen /> : null  }
         </>
       }
     </div>
