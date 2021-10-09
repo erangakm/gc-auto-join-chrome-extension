@@ -41,7 +41,7 @@ const sendReminder = async (scheduledEvent: ScheduledEvent, alarmType: AlarmType
 
   chrome.notifications.create(`notification-${now.valueOf()}-1`, {
     type: "basic",
-    iconUrl: "logo192.png",
+    iconUrl: "logo.png",
     title,
     message,
     priority: alarmType === AlarmTypes.OneMinuteReminder ? 2 : 1

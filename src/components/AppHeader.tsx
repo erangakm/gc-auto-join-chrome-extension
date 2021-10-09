@@ -7,7 +7,7 @@ export const AppHeader: React.FC<{}> = ({ children }) => {
       <div className="container p-2 pt-3">
         <div className="row">
           <div className="col text-center">
-            <img className="mr-2" alt="logo" src="./temp64.png" style={{ height: "35px" }}></img>
+            <img className="mr-2" alt="logo" src="./logo.png" style={{ height: "35px" }}></img>
           </div>
         </div>
         <div className="row">
