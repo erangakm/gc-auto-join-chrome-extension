@@ -7,6 +7,7 @@ import { getStorageKey } from "../lib/chromeStorageHandlers";
 import { isSupportedVideoMeetingPlatform } from "../lib/eventHelpers";
 import { EventWithMeeting } from "../model/googleCalendar/EventWithMeeting";
 import { NoEventsScreen } from "./NoEventsScreen";
+import { EventListSkeleton } from "./EventListSkeleton";
 
 export const EventList: React.FC<{}> = () => {
   const authCtx = useContext(AuthContext);
@@ -54,7 +55,7 @@ export const EventList: React.FC<{}> = () => {
 
   return (
     <div className="">
-      {eventsLoading ? <p className="mt-2 pl-2 appear-with-fade-in">Events loading...</p> :
+      {eventsLoading ? <EventListSkeleton/> :
         <>
           {
             events
