@@ -8,7 +8,7 @@ export const NoEventsScreen: React.FC<{}> = () => {
   }
 
   return (
-    <div className="p-2 pt-3">
+    <div className="p-2 pt-3 appear-with-fade-in">
       <div className="image" style={centerStyle}>
         <img src="./empty_calendar.png" alt="no events" style={{ width: "100px" }}></img>
       </div>
