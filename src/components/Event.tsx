@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import {
   addEventToSchedule,
@@ -30,7 +30,8 @@ const getMeetingIcon = (event: EventWithMeeting) => {
 }
 
 export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
-  console.log("calling seperate event");
+  const [meetingUrl, setMeetingUrl] = useState("");
+
   const onClick = async (e: any) => {
     const eventSelected = e.target.checked;
     if (eventSelected) {
@@ -39,6 +40,15 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
       await removeEventFromSchedule(event.id);
     }
   }
+
+  const getMeetingUrl = useCallback(async () => {
+    const url = await getVideoUrl(event);
+    setMeetingUrl(url)
+  }, [event]);
+
+  useEffect(() => {
+    getMeetingUrl();
+  }, [getMeetingUrl]);
 
   const middleAlignStyle: React.CSSProperties = {
     display: "flex",
@@ -61,7 +71,7 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
             <div className="col event-name" style={{ fontWeight: 800 }}>
               <a style={{
                 color: "#212529"
-              }} target="_blank" rel="noreferrer" href={getVideoUrl(event)}>{event.summary}</a>
+              }} target="_blank" rel="noreferrer" href={meetingUrl}>{event.summary}</a>
             </div>
           </div>
           <div className="row">

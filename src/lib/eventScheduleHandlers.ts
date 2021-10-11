@@ -43,7 +43,7 @@ export const persistScheduledEventInStorage = async (event: EventWithMeeting): P
 
   const schedule = (await getStorageKey<ScheduledEvent[]>("eventSchedule")) ?? [];
   schedule.push(
-    transformEvent(event, currentSession.userEmail)
+    await transformEvent(event, currentSession.userEmail)
   );
   await setStorageKey("eventSchedule", schedule);
 }
