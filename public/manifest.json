@@ -1,7 +1,7 @@
 {
-  "name": "Google Calendar video meeting auto join",
-  "description": "Automatically join video meetings",
-  "version": "1.0",
+  "name": "Video meetings assistant",
+  "description": "Take me to video meetings on time.",
+  "version": "1.1",
   "manifest_version": 3,
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArPdHf+YjakD/6qDGIr89Ou7mWYBy8CYVM3BSQHX61nY/pmJfmQmWmpFRo56ClQNaMWGB+GvMa6xxeNIFqP8vpaGIWa3k7/oYfUszD7CqU4dhgAqZtPD0H1o2UNF//HzalqwQChG2glSIOULBhxhKbE1eS/L3oicJShC5IsFvksVMRGXFIehhTB9970QAOTMgwgmd/F4XQnfbYBJz1wdRzSzJWWyqehTwtA3qigG2Fd1fLx/1Hk25GtDuXQ01XwP+KY7fSSiDxKv6t3nFOFlDoU4DUIM9TlZjikUM5uIsSNxKaUlOlSJ1156LVOVst1+tuVhzNp9ZT/hCEIfDlr6mzQIDAQAB",
   "action": {
