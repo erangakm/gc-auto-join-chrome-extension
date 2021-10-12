@@ -58,6 +58,9 @@ export const EventList: React.FC<{}> = () => {
       {eventsLoading ? <EventListSkeleton/> :
         <>
           {
+            // <p className="px-3 m-0 pt-2">Select meetings you want to be taken to at the scheduled time:</p>
+          }
+          {
             events
               .sort((a, b) => new Date(a.start.dateTime).valueOf() < new Date(b.start.dateTime).valueOf() ? -1 : 0)
               .map((event, i) => (

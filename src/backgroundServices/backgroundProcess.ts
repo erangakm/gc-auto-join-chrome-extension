@@ -37,7 +37,7 @@ const sendReminder = async (scheduledEvent: ScheduledEvent, alarmType: AlarmType
     "Meeting about to start" : "Meeting starting now";
   const baseMessage = `You will be joining your video meeting "${scheduledEvent.title}"`;
   const message = alarmType === AlarmTypes.OneMinuteReminder ?
-    `${baseMessage} in a minute` : `${baseMessage} now!`
+    `${baseMessage} in a minute` : `${baseMessage} now!`;
 
   chrome.notifications.create(`notification-${now.valueOf()}`, {
     type: "basic",

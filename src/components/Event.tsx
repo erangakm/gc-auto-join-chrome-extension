@@ -66,7 +66,7 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
             style={{ width: "25px" }}
           />
         </div>
-        <div className="col-8 pl-0">
+        <div className="col-8 px-0">
           <div className="row">
             <div className="col event-name" style={{ fontWeight: 800 }}>
               <a style={{
@@ -81,7 +81,7 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
           </div>
         </div>
         <div className="col-2" style={middleAlignStyle}>
-          <div className="custom-control custom-switch">
+          <div title="Select event to be taken to the meeting at the scheduled time"  className="custom-control custom-switch">
             <input type="checkbox" className="custom-control-input" id={event.id} onClick={onClick} defaultChecked={eventScheduled}></input>
             <label className="custom-control-label" htmlFor={event.id}></label>
           </div>
