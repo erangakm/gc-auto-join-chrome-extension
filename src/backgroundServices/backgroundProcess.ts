@@ -34,12 +34,12 @@ const sendReminder = async (scheduledEvent: ScheduledEvent, alarmType: AlarmType
   const now = new Date();
 
   const title = alarmType === AlarmTypes.OneMinuteReminder ?
-    "Event about to start" : "Event starting now";
-  const baseMessage = `You will be joining your hangouts meeting "${scheduledEvent.title}"`;
+    "Meeting about to start" : "Meeting starting now";
+  const baseMessage = `You will be joining your video meeting "${scheduledEvent.title}"`;
   const message = alarmType === AlarmTypes.OneMinuteReminder ?
-    `${baseMessage} in a minute` : `${baseMessage} NOW!`
+    `${baseMessage} in a minute` : `${baseMessage} now!`
 
-  chrome.notifications.create(`notification-${now.valueOf()}-1`, {
+  chrome.notifications.create(`notification-${now.valueOf()}`, {
     type: "basic",
     iconUrl: "logo.png",
     title,
