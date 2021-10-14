@@ -97,7 +97,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 });
 
 const CLIENT_ID = encodeURIComponent(getEnvironmentVariable("REACT_APP_OAUTH_CLIENT_ID"));
-const REDIRECT_URI = encodeURIComponent('https://mghoimjmeppliamlmihmenbhaipcodap.chromiumapp.org/')
+const REDIRECT_URI = encodeURIComponent('https://hmomimaiigjfdpbgjdcodnaibladllla.chromiumapp.org/')
 const SCOPE = `${encodeURIComponent("email")}+${encodeURIComponent("https://www.googleapis.com/auth/calendar.events.readonly")}`
 
 const authEndpoint = () => {
@@ -129,7 +129,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           headers: {
             'Content-Type': "application/x-www-form-urlencoded"
           },
-          body: `code=${authorizationCode}&redirect_uri=${encodeURIComponent('https://mghoimjmeppliamlmihmenbhaipcodap.chromiumapp.org/')}&client_id=${encodeURIComponent(process.env.REACT_APP_OAUTH_CLIENT_ID ?? "")}&client_secret=${encodeURIComponent(process.env.REACT_APP_OAUTH_CLIENT_SECRET ?? "")}&grant_type=authorization_code`
+          body: `code=${authorizationCode}&redirect_uri=${encodeURIComponent('https://hmomimaiigjfdpbgjdcodnaibladllla.chromiumapp.org/')}&client_id=${encodeURIComponent(process.env.REACT_APP_OAUTH_CLIENT_ID ?? "")}&client_secret=${encodeURIComponent(process.env.REACT_APP_OAUTH_CLIENT_SECRET ?? "")}&grant_type=authorization_code`
         }
 
         const response = await fetch("https://oauth2.googleapis.com/token", options);

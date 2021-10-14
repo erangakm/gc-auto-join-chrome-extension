@@ -1,9 +1,9 @@
 {
   "name": "Video meetings assistant",
   "description": "Take me to video meetings on time.",
-  "version": "1.2",
+  "version": "1.3",
   "manifest_version": 3,
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArPdHf+YjakD/6qDGIr89Ou7mWYBy8CYVM3BSQHX61nY/pmJfmQmWmpFRo56ClQNaMWGB+GvMa6xxeNIFqP8vpaGIWa3k7/oYfUszD7CqU4dhgAqZtPD0H1o2UNF//HzalqwQChG2glSIOULBhxhKbE1eS/L3oicJShC5IsFvksVMRGXFIehhTB9970QAOTMgwgmd/F4XQnfbYBJz1wdRzSzJWWyqehTwtA3qigG2Fd1fLx/1Hk25GtDuXQ01XwP+KY7fSSiDxKv6t3nFOFlDoU4DUIM9TlZjikUM5uIsSNxKaUlOlSJ1156LVOVst1+tuVhzNp9ZT/hCEIfDlr6mzQIDAQAB",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk8k0VY119FidvVFg35D8eBo0u0LrwiKsxvjOt3mdLAoRbESE3fBbKk+Jp98jbIZ8QqENmRQOYTLDTF6EPJxaLOPfqnzOHVUepx7In7VxLDBHqDU0xv81Ctp6dbSGznqhCCxf+Ie0X9ZFdNb6AA2jeIveOuX7cnsxWD8WGYJFB0b4pDWZduPMEj5as4AXun7sN23mW1PSV5nWhu3c/xnc1v54OBGFSz5aIdOpnncpmRckBFKF28423nDJwOF0j0rWVyXHMOgtMD/eBP99d8Btr3t6cZ2HjifkmkCp8uZKcx8aNyriV+UZtAcb9socKKUyUbowhXHeok50djZvQX1NhwIDAQAB",
   "action": {
     "default_popup": "index.html",
     "default_title": "Schedule your meetings to be auto-joined"
