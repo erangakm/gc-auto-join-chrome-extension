@@ -81,7 +81,7 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
           </div>
         </div>
         <div className="col-2" style={middleAlignStyle}>
-          <div title="Select event to be taken to the meeting at the scheduled time"  className="custom-control custom-switch">
+          <div title="Click on me to control your automatic meeting schedule"  className="custom-control custom-switch">
             <input type="checkbox" className="custom-control-input" id={event.id} onClick={onClick} defaultChecked={eventScheduled}></input>
             <label className="custom-control-label" htmlFor={event.id}></label>
           </div>

@@ -51,23 +51,28 @@ export const EventList: React.FC<{}> = () => {
     fetchEvents();
   }, [setEventSchedule]);
 
-  console.log("calling event list")
-
   return (
     <div className="">
       {eventsLoading ? <EventListSkeleton/> :
         <>
-          {
-            // <p className="px-3 m-0 pt-2">Select meetings you want to be taken to at the scheduled time:</p>
+          { events.length === 0
+            ? <NoEventsScreen />
+              : <>
+                  {
+                    <p className="px-3 m-0 pt-2" style={{
+                      fontSize: "11px",
+                      fontStyle: "italic"
+                    }}>Use the toggle on the right had side to select meetings you want to be taken to at the scheduled time:</p>
+                  }
+                  {
+                    events
+                      .sort((a, b) => new Date(a.start.dateTime).valueOf() < new Date(b.start.dateTime).valueOf() ? -1 : 0)
+                      .map((event, i) => (
+                        <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
+                    ))
+                  }
+                </>
           }
-          {
-            events
-              .sort((a, b) => new Date(a.start.dateTime).valueOf() < new Date(b.start.dateTime).valueOf() ? -1 : 0)
-              .map((event, i) => (
-                <EventComponent key={i} event={event} eventScheduled={eventSchedule.find((e) => e.id === event.id) != null} />
-            ))
-          }
-          { events.length === 0 ? <NoEventsScreen /> : null  }
         </>
       }
     </div>
