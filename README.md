@@ -1,10 +1,10 @@
 # Video meetings assistant
 
-**Author:** Eranga Manchanayake
-**Bugs/Support:** [Github Issues][gh-issues]
-**Copyright:** 2021
-**License:** [MIT license][license]
-**Status:** Active
+**Author:** Eranga Manchanayake.  
+**Bugs/Support:** [Github Issues][gh-issues].  
+**Copyright:** 2021.  
+**License:** [MIT license][license].  
+**Status:** Active.  
 
 ## About the app
 
