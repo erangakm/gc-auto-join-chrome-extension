@@ -1,7 +1,7 @@
 {
   "name": "Video meetings assistant",
   "description": "Take me to video meetings on time.",
-  "version": "1.3",
+  "version": "1.4",
   "manifest_version": 3,
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk8k0VY119FidvVFg35D8eBo0u0LrwiKsxvjOt3mdLAoRbESE3fBbKk+Jp98jbIZ8QqENmRQOYTLDTF6EPJxaLOPfqnzOHVUepx7In7VxLDBHqDU0xv81Ctp6dbSGznqhCCxf+Ie0X9ZFdNb6AA2jeIveOuX7cnsxWD8WGYJFB0b4pDWZduPMEj5as4AXun7sN23mW1PSV5nWhu3c/xnc1v54OBGFSz5aIdOpnncpmRckBFKF28423nDJwOF0j0rWVyXHMOgtMD/eBP99d8Btr3t6cZ2HjifkmkCp8uZKcx8aNyriV+UZtAcb9socKKUyUbowhXHeok50djZvQX1NhwIDAQAB",
   "action": {

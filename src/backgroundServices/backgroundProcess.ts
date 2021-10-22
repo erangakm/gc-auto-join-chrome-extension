@@ -66,7 +66,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }));
 
   const schedule = await getStorageKey<ScheduledEvent[]>("eventSchedule");
-  console.log(schedule, "SCHEDULE>>>>>>>.");
+  console.log("Schedule ->", schedule);
 
   const eventScheduleAlarm = eventAlarmValidator(alarm.name);
   if (eventScheduleAlarm == null) {
