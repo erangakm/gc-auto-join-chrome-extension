@@ -59,19 +59,19 @@ export const Event: React.FC<Props> = ({ event, eventScheduled }) => {
     <div className="container-fluid appear-with-fade-in event">
       <div className="event-row row py-2">
         <div className="col-2" style={middleAlignStyle}>
-          <img
-            src={getMeetingIcon(event)}
-            alt={getMeetingType(event)}
-            title={getMeetingType(event)}
-            style={{ width: "25px" }}
-          />
+          <a target="_blank" rel="noreferrer" href={meetingUrl}>
+            <img
+              src={getMeetingIcon(event)}
+              alt={getMeetingType(event)}
+              title={getMeetingType(event)}
+              style={{ width: "25px" }}
+            />
+          </a>
         </div>
         <div className="col-8 px-0">
           <div className="row">
             <div className="col event-name" style={{ fontWeight: 800 }}>
-              <a style={{
-                color: "#212529"
-              }} target="_blank" rel="noreferrer" href={meetingUrl}>{event.summary}</a>
+              <span>{event.summary}</span>
             </div>
           </div>
           <div className="row">

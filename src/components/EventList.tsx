@@ -34,7 +34,6 @@ export const EventList: React.FC<{}> = () => {
     const fetchData = async () => {
       const response = await fetch(url, options)
       const data = await response.json();
-      console.log(data.items, "MEETINGS>>>>>>>>>");
       const filteredEvents = data.items.filter(isSupportedVideoMeetingPlatform)
       setEvents(filteredEvents as EventWithMeeting[]);
       setEventsLoading(false);
@@ -60,10 +59,10 @@ export const EventList: React.FC<{}> = () => {
             ? <NoEventsScreen />
               : <>
                   {
-                    <p className="px-3 m-0 pt-2" style={{
+                    <p className="px-3 m-0 pt-3 pb-2" style={{
                       fontSize: "11px",
                       fontStyle: "italic"
-                    }}>Use the toggle on the right had side to select meetings you want to be taken to at the scheduled time:</p>
+                    }}>Use the toggle on the right had side to select meetings you want to be taken to at the scheduled start time:</p>
                   }
                   {
                     events
