@@ -8,6 +8,7 @@ import { isSupportedVideoMeetingPlatform } from "../lib/eventHelpers";
 import { EventWithMeeting } from "../model/googleCalendar/EventWithMeeting";
 import { NoEventsScreen } from "./NoEventsScreen";
 import { EventListSkeleton } from "./EventListSkeleton";
+import { calendarEventEndpoint } from "../googleEndpoints";
 
 export const EventList: React.FC<{}> = () => {
   const authCtx = useContext(AuthContext);
@@ -23,7 +24,7 @@ export const EventList: React.FC<{}> = () => {
     const now = dayjs();
     const timeMin = encodeURIComponent(now.format())
     const timeMax = encodeURIComponent(now.endOf("day").format());
-    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&singleEvents=true&timeMax=${timeMax}`;
+    const url = `${calendarEventEndpoint}?timeMin=${timeMin}&singleEvents=true&timeMax=${timeMax}`;
     const options = {
       headers: {
         "Authorization": `Bearer ${authCtx.session?.accessToken}`
