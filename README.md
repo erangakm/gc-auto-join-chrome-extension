@@ -1,6 +1,5 @@
 # Video meetings assistant
 
-**License:** [**MIT License**][license]
 **Author:** Eranga Manchanayake
 **Bugs/Support:** [Github Issues][gh-issues]
 **Copyright:** 2021
